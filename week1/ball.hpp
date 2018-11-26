@@ -20,10 +20,10 @@ public:
 	void movement() override;
 	bool intersects_with(const sf::Shape & obj);
 	void change_speed(const sf::Shape &obj);
+	sf::Vector2f speed;
 private:
 	sf::Vector2f position;
 	float size;
-	sf::Vector2f speed;
 };
 
 #endif

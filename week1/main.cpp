@@ -10,7 +10,7 @@ int main( int argc, char *argv[] ){
 	std::cout << "Starting application 01-05 array of actions\n";
 
 	sf::RenderWindow window{ sf::VideoMode{ 640, 480 }, "SFML window" };
-	ball my_ball{ sf::Vector2f{ 320.0, 240.0 } };
+	ball my_ball{ sf::Vector2f{ 320.0, 240.0 }, 30.0, sf::Vector2f(5.0, 5.0) };
 	rectangle walls[] = {
 			rectangle(sf::Vector2f(640, 10), sf::Vector2f(0,0)),
 			rectangle(sf::Vector2f(10, 480), sf::Vector2f(0,0)),
@@ -35,7 +35,9 @@ int main( int argc, char *argv[] ){
 			action(	[&]() {return (my_ball.intersects_with(walls[2].get_shape()));},
 					   [&]() {my_ball.change_speed(walls[2].get_shape());}),
 			action(	[&]() {return (my_ball.intersects_with(walls[3].get_shape()));},
-					   [&]() {my_ball.change_speed(walls[3].get_shape());})
+					   [&]() {my_ball.change_speed(walls[3].get_shape());}),
+			action(	[&]() {return (my_ball.intersects_with(block.get_shape()));},
+					   [&]() {my_ball.change_speed(block.get_shape());})
 	};
 	while (window.isOpen()) {
 		for( auto & action : actions ){
@@ -45,6 +47,7 @@ int main( int argc, char *argv[] ){
 			check();
 		}
 		window.clear();
+		my_ball.move(my_ball.speed);
 		my_ball.draw( window );
 		block.draw(window);
 		for(auto & wall : walls){

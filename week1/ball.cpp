@@ -41,6 +41,14 @@ bool ball::intersects_with(const sf::Shape & obj) {
 }
 
 void ball::change_speed(const sf::Shape &obj) {
-
+	sf::CircleShape circle;
+	circle.setRadius(size);
+	circle.setPosition(position);
+	if(obj.getPosition().x > position.x){
+		speed.x *= -1;
+	}
+	else if(obj.getPosition().y < position.y){
+		speed.y *= -1;
+	}
 }
 
