@@ -37,16 +37,17 @@ std::ifstream &operator>>(std::ifstream &input, sf::Color &rhs) {
 	throw unknown_color_exception(s);
 }
 
+
 std::ifstream &operator>>(std::ifstream &input, sf::Vector2f &rhs) {
 	char c;
-	if(!(input >> c)) { throw unexpected_eof_exception();}
-	if( c!='('){throw invalid_position(c);}
-	if(! (input >> rhs.x)) {throw invalid_value(c);}
-	if(!(input >> c)) { throw unexpected_eof_exception();}
-	if(c != ','){throw invalid_position(c);}
-	if(!(input >> rhs.y)) {throw invalid_value(c);}
-	if(!(input >> c)) {throw unexpected_eof_exception();}
-	if(c != ')') {throw invalid_position(c);}
+	if (!(input >> c)) { throw unexpected_eof_exception(); }
+	if (c != '(') { throw invalid_position(c); }
+	if (!(input >> rhs.x)) { throw invalid_value(c); }
+	if (!(input >> c)) { throw unexpected_eof_exception(); }
+	if (c != ',') { throw invalid_position(c); }
+	if (!(input >> rhs.y)) { throw invalid_value(c); }
+	if (!(input >> c)) { throw unexpected_eof_exception(); }
+	if (c != ')') { throw invalid_position(c); }
 	return input;
 }
 

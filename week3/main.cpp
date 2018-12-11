@@ -12,6 +12,24 @@
 
 scherm_object *selected_object = nullptr;
 
+std::string &operator+=(std::string &output, sf::Color &rhs) {
+	const struct {
+		const char *name;
+		sf::Color color;
+	} colors[]{
+			{"YELLOW",  sf::Color::Yellow},
+			{"RED",     sf::Color::Red},
+			{"MAGENTA", sf::Color::Magenta},
+	};
+	for (auto const &color : colors) {
+		if (color.color == rhs) {
+			output += color.name;
+			return output;
+		}
+	}
+	throw unknown_color_exception();
+}
+
 void select_object(std::vector<scherm_object *> &objects, const sf::Vector2i &position) {
 	for (auto &obj : objects) {
 		auto bounding_rect = obj->getShape().getGlobalBounds();
@@ -21,6 +39,23 @@ void select_object(std::vector<scherm_object *> &objects, const sf::Vector2i &po
 			return;
 		}
 	}
+}
+
+void cleanup_objects(std::vector<scherm_object *> &objects) {
+	std::ofstream outfile("my_objects.txt");
+	if (outfile.is_open()) {
+		for (auto &obj: objects) {
+			outfile << obj;
+			if (obj != objects.back()) {
+				outfile << '\n';
+			}
+		}
+
+		outfile.close();
+	} else {
+		std::cerr << "Can't open the file???";
+	}
+
 }
 
 int main(int argc, char *argv[]) {
@@ -52,7 +87,7 @@ int main(int argc, char *argv[]) {
 				   [&]() { selected_object->move(sf::Vector2f(0.0, +1.0)); }),
 	};
 	while (window.isOpen()) {
-		for(auto & act : action_list){
+		for (auto &act : action_list) {
 			act();
 		}
 		window.clear();
@@ -69,6 +104,7 @@ int main(int argc, char *argv[]) {
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
+				cleanup_objects(scherm_objecten);
 			}
 		}
 	}

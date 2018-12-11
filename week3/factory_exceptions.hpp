@@ -29,7 +29,8 @@ public:
 class unknown_shape_exception : public std::exception {
 	std::string name;
 public:
-	explicit unknown_shape_exception(const std::string &__arg = "Unknown shape") : name(std::string("No matching shape for name \'" + __arg + "\' found")) {}
+	explicit unknown_shape_exception(const std::string &__arg = "Unknown shape") : name(
+			std::string("No matching shape for name \'" + __arg + "\' found")) {}
 
 	const char *what() const throw() override {
 		return name.c_str();
@@ -39,7 +40,8 @@ public:
 class unknown_color_exception : public std::exception {
 	std::string name;
 public:
-	explicit unknown_color_exception(const std::string &__arg = "Unknown color") : name(std::string("No matching color for name \'" + __arg + "\' found ")) {}
+	explicit unknown_color_exception(const std::string &__arg = "Unknown color") : name(
+			std::string("No matching color for name \'" + __arg + "\' found ")) {}
 
 	const char *what() const throw() override {
 		return name.c_str();
@@ -61,7 +63,8 @@ class invalid_value : public std::exception {
 	std::string name;
 public:
 	explicit invalid_value(char __arg) : name(std::string("Invalid value entered")) {}
-	const char * what() const throw() override {
+
+	const char *what() const throw() override {
 		return name.c_str();
 	}
 };
