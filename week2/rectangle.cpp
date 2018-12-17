@@ -16,7 +16,9 @@ void rectangle::draw(sf::RenderWindow &window) {
 
 
 void rectangle::move(const sf::Vector2f &delta) {
-	position += delta;
+	if(!collision_detection(*b)){
+		position += delta;
+	}
 }
 
 sf::RectangleShape rectangle::getShape() {
@@ -24,4 +26,11 @@ sf::RectangleShape rectangle::getShape() {
 	rect.setPosition(position);
 	rect.setFillColor(color);
 	return rect;
+}
+
+bool rectangle::collision_detection(ball &b) {
+	sf::RectangleShape rect(size);
+	rect.setPosition(position);
+	auto obj_bounds = b.getShape().getGlobalBounds();
+	return (rect.getGlobalBounds().intersects(obj_bounds));
 }

@@ -10,13 +10,13 @@ int main( int argc, char *argv[] ){
 	std::cout << "Starting application 01-05 array of actions\n";
 
 	sf::RenderWindow window{ sf::VideoMode{ 640, 480 }, "SFML window" };
-	ball my_ball{ sf::Vector2f{ 320.0, 240.0 }, sf::Vector2f(-2, -2) };
+	ball my_ball{ sf::Vector2f{ 320.0, 240.0 }, sf::Vector2f(-4, -4) };
 	rectangle top_wall = rectangle(sf::Vector2f(0,0),sf::Vector2f(640, 10));
 	rectangle bottom_wall = rectangle(sf::Vector2f(0,470),sf::Vector2f(640, 10));
 	rectangle left_wall = rectangle(sf::Vector2f(0,0),sf::Vector2f(10, 480));
 	rectangle right_wall = rectangle(sf::Vector2f(630,0),sf::Vector2f(10, 480));
 	rectangle paddle = rectangle(sf::Vector2f(230, 230), sf::Vector2f(100, 100), sf::Color::Magenta);
-
+	paddle.setball(my_ball);
 	scherm_object * scherm_objecten[] = {
 			&my_ball,
 			&top_wall,
@@ -27,10 +27,10 @@ int main( int argc, char *argv[] ){
 	};
 
 	action actions[] = {
-			action( sf::Keyboard::Left,  [&](){ paddle.move( sf::Vector2f( -5.0f,  0.0f )); }),
-			action( sf::Keyboard::Right, [&](){ paddle.move( sf::Vector2f( +5.0f,  0.0f )); }),
-			action( sf::Keyboard::Up,    [&](){ paddle.move( sf::Vector2f(  0.0f, -5.0f )); }),
-			action( sf::Keyboard::Down,  [&](){ paddle.move( sf::Vector2f(  0.0f, +5.0f )); }),
+			action( sf::Keyboard::Left,  [&](){ paddle.move( sf::Vector2f( -2.0f,  0.0f )); }),
+			action( sf::Keyboard::Right, [&](){ paddle.move( sf::Vector2f( +2.0f,  0.0f )); }),
+			action( sf::Keyboard::Up,    [&](){ paddle.move( sf::Vector2f(  0.0f, -2.0f )); }),
+			action( sf::Keyboard::Down,  [&](){ paddle.move( sf::Vector2f(  0.0f, +2.0f )); }),
 			action( sf::Mouse::Left,     [&](){ my_ball.jump( sf::Mouse::getPosition( window )); }),
 			action([&](){my_ball.unconditional_movement();})
 	};
