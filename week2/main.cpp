@@ -10,12 +10,12 @@ int main( int argc, char *argv[] ){
 	std::cout << "Starting application 01-05 array of actions\n";
 
 	sf::RenderWindow window{ sf::VideoMode{ 640, 480 }, "SFML window" };
-	ball my_ball{ sf::Vector2f{ 320.0, 240.0 }, sf::Vector2f(-5, -5) };
+	ball my_ball{ sf::Vector2f{ 320.0, 240.0 }, sf::Vector2f(-2, -2) };
 	rectangle top_wall = rectangle(sf::Vector2f(0,0),sf::Vector2f(640, 10));
 	rectangle bottom_wall = rectangle(sf::Vector2f(0,470),sf::Vector2f(640, 10));
 	rectangle left_wall = rectangle(sf::Vector2f(0,0),sf::Vector2f(10, 480));
 	rectangle right_wall = rectangle(sf::Vector2f(630,0),sf::Vector2f(10, 480));
-	rectangle paddle = rectangle(sf::Vector2f(230, 230), sf::Vector2f(40, 20), sf::Color::Magenta);
+	rectangle paddle = rectangle(sf::Vector2f(230, 230), sf::Vector2f(100, 100), sf::Color::Magenta);
 
 	scherm_object * scherm_objecten[] = {
 			&my_ball,

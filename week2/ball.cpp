@@ -46,21 +46,32 @@ void ball::check_collision(const sf::RectangleShape & obj) {
 	sf::Rect<float> intersection;
 	intersection.width = 0;
 	intersection.height = 0;
-	if(circle_bounds.intersects(obj_bounds, intersection)){
-		if((int(position.x) == int(intersection.left) && intersection.height == size * 2) || (int(position.x + int(size * 2) - 1) == int(intersection.left))){
+	if(circle_bounds.intersects(obj_bounds, intersection) && !collided){
+		collided = true;
+		printf("Pos.x : %d | Size * 2 : %d | intersection.left : %d", static_cast<int>(position.x),
+			   static_cast<int>(size * 2), static_cast<int>(intersection.left));
+		std::cout << std::endl;
+		if((int(position.x) >= int(intersection.left) && intersection.height == size * 2) || ((int(position.x) <= int(intersection.left + intersection.width)) && intersection.height == size * 2)){
 			speed.x *= -1;
+//			printf("Inverting X\n");
 
 		}else{
 			speed.y *= -1;
+//			printf("Inverting Y\n");
 		}
-		while((intersection.width < 59 && intersection.width > 7 )
-			  || (intersection.height < 59 && intersection.height > 7)){
+		while((intersection.width < 59 && intersection.width > 9 )
+			  && (intersection.height < 59 && intersection.height > 9)){
+			printf("Intersection height: %d | Intersection width: %d", static_cast<int>(intersection.height),
+				   static_cast<int>(intersection.width));
+			std::cout << std::endl;
 			this->unconditional_movement();
 			circle.setPosition(position);
 			circle_bounds = circle.getGlobalBounds();
 			circle_bounds.intersects(obj_bounds, intersection);
 		}
+		return;
 	}
+	collided = false;
 }
 
 sf::RectangleShape ball::getShape() {
