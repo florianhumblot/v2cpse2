@@ -9,6 +9,7 @@
 class Command {
 public:
 	virtual void execute() = 0;
+	virtual bool get_result() = 0;
 };
 
 

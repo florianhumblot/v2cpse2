@@ -5,15 +5,16 @@
 #ifndef V2CPSE2_COMMANDS_HPP
 #define V2CPSE2_COMMANDS_HPP
 
-#include <Command.hpp>
-#include <TicTacToe.hpp>
+#include "Command.hpp"
+#include "TicTacToe.hpp"
 
-class pickFieldCommand : Command {
+class pickFieldCommand : public Command {
 	TicTacToe *Game;
 	TicTacToe::coordinates coords;
-	bool result;
+	TicTacToe::players current_player;
+	bool result = false;
 public:
-	pickFieldCommand(TicTacToe &Game) : Game(&Game) {}
+	pickFieldCommand(TicTacToe &Game, TicTacToe::coordinates & coords) : Game(&Game), coords(coords), current_player(Game.current_player){}
 
 	void setCoords(TicTacToe::coordinates c) { coords = c; }
 
@@ -22,6 +23,9 @@ public:
 	}
 
 	void execute() override {
+		if(Game->current_player != current_player){
+			Game->next_player();
+		}
 		result = Game->pick_field(coords);
 	}
 

@@ -10,10 +10,10 @@ void commandManager::executeCmd(std::shared_ptr<Command> command) {
 }
 
 void commandManager::undo() {
+	if(!commandQueue.empty()){
+		commandQueue.pop_back();
+	}
 	for (auto &cmd : commandQueue) {
-		if (cmd == commandQueue.back()) {
-			return;
-		}
 		cmd->execute();
 	}
 }

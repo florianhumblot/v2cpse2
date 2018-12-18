@@ -1,7 +1,10 @@
 #include <vector>
 #include <cstring>
-#include "action.hpp"
-#include "TicTacToe.hpp"
+#include "../action.hpp"
+#include "../TicTacToe.hpp"
+#include "../commandManager.hpp"
+#include "../Command.hpp"
+#include "../Commands.hpp"
 
 TicTacToe::coordinates getCoordinates(TicTacToe &Game);
 
@@ -11,15 +14,16 @@ void showResult(TicTacToe &Game);
 
 bool askToKeepPlaying();
 
-void handlePlay(TicTacToe &Game);
+void handlePlay(TicTacToe &Game, commandManager & c);
 
 int main() {
 	auto Game = TicTacToe();
+	auto cmd = commandManager();
 	bool keepPlaying;
 	do {
 		Game.reset_board();
 		do {
-			handlePlay(Game);
+			handlePlay(Game, cmd);
 		} while (not Game.over());
 		std::cout << Game;
 		keepPlaying = askToKeepPlaying();
@@ -29,9 +33,18 @@ int main() {
 }
 
 TicTacToe::coordinates getCoordinates(TicTacToe &Game) {
-	printf("Input you coordinates %s: (The format is 'x y')\n", Game.get_current_player());
+	printf("What position would you like to pick? (0 to undo)%s:\n", Game.get_current_player());
 	TicTacToe::coordinates c{};
-	std::cin >> c.x >> c.y;
+	int tmp;
+	std::cin >> tmp;
+	if(tmp == 0){
+		c.x = -1;
+		c.y = -1;
+	}else{
+		tmp -= 1;
+		c.x = tmp / 3;
+		c.y = tmp % 3;
+	}
 	return c;
 }
 
@@ -66,13 +79,20 @@ bool askToKeepPlaying() {
 			std::strcmp(answer, "Yes") == 0);
 }
 
-void handlePlay(TicTacToe &Game) {
+void handlePlay(TicTacToe &Game, commandManager & c) {
 	std::cout << Game;
 	TicTacToe::coordinates coords = getCoordinates(Game);
 	if (coords.x < 0 || coords.x > 2 || coords.y < 0 || coords.y > 2) {
-		invalidCoordinates();
+		if(coords.x == -1 && coords.y == -1){
+			Game.reset_board();
+			c.undo();
+		}else {
+			invalidCoordinates();
+		}
 	} else {
-		if (Game.pick_field(coords)) {
+		auto cmd = std::make_shared<pickFieldCommand>(Game, coords);
+		c.executeCmd(cmd);
+		if (cmd->get_result()) {
 			showResult(Game);
 		} else {
 			bool CoordinatesInUse = true;

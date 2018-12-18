@@ -46,6 +46,18 @@ public:
 		current_player = (current_player == players::X) ? players::O : players::X;
 	}
 
+	players current_player = players::X;
+
+	std::vector<std::vector<slot_state>> get_board(){
+		std::vector<std::vector<slot_state>> board{
+				{game_board[0][0], game_board[0][1], game_board[0][2] },
+				{game_board[1][0], game_board[1][1], game_board[1][2] },
+				{game_board[2][0], game_board[2][1], game_board[2][2] }
+		};
+
+		return board;
+	}
+
 private:
 	std::string repr;
 
@@ -74,7 +86,7 @@ private:
 		return it == EnumStrings.end() ? "?" : it->second;
 	}
 
-	players current_player = players::X;
+
 
 	bool gameover = false;
 

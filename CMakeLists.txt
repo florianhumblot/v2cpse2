@@ -9,10 +9,16 @@ include_directories(C:/Users/djrel/Downloads/boost_1_69_0)
 include_directories(week5)
 
 file(GLOB tic_tac_toe_SRC
-        "week2/*.hpp"
-        "week2/*.cpp"
+        "week5/*.hpp"
+        "week5/*.cpp"
+        )
+file(GLOB SFML
+        "week5/sfml/*.hpp"
+        "week5/sfml/*.cpp")
+add_executable(v2cpse2-cli
+        ${tic_tac_toe_SRC} week5/cli/main.cpp
         )
 
-add_executable(v2cpse2
-        ${tic_tac_toe_SRC}
+add_executable(v2cpse2-sfml
+        ${tic_tac_toe_SRC} ${SFML}
         )
