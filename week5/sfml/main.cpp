@@ -46,7 +46,13 @@ int main() {
 		window.clear();
 		GameBoard.draw(window);
 		window.display();
-
+		if(Game.over()){
+			keepPlaying = askToKeepPlaying();
+			if(keepPlaying){
+				Game.reset_board();
+				GameBoard.show_current_board(Game.get_board());
+			}
+		}
 		sf::sleep(sf::milliseconds(20));
 
 		sf::Event event;
