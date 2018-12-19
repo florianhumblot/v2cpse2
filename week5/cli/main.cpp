@@ -73,10 +73,11 @@ void showResult(TicTacToe &Game) {
 
 bool askToKeepPlaying() {
 	printf("Do you want to keep playing?(Yes/No/Y/N)\n");
-	char answer[] = "";
+//	char answer[] = "";
+	std::string answer;
 	std::cin >> answer;
-	return (std::strcmp(answer, "y") == 0 || std::strcmp(answer, "Y") == 0 ||
-			std::strcmp(answer, "Yes") == 0);
+	return (answer == "y"|| answer == "Y" ||
+			answer == "Yes");
 }
 
 void handlePlay(TicTacToe &Game, commandManager & c) {
